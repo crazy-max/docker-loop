@@ -1,0 +1,6 @@
+#!/bin/sh
+
+LOG_FILE=${LOG_FILE:-/tmp/loop.log}
+DURATION=${DURATION:-60s}
+
+loop --for-duration ${DURATION} --every 1s -- echo -e "\$(date) - \$(hostname)" | tee -a "$LOG_FILE"

@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  loop:
+    image: crazymax/loop:latest
+    container_name: loop
+    environment:
+      - "TZ=Europe/Paris"
+      - "DURATION=60s"
+    restart: always

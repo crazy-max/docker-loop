@@ -1,0 +1,29 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - VERSION=latest
+    - DOCKER_LOGIN=crazymax
+    - DOCKER_USERNAME=crazymax
+    - DOCKER_REPONAME=loop
+    - QUAY_LOGIN=crazymax
+    - QUAY_USERNAME=crazymax
+    - QUAY_REPONAME=loop
+    - secure: k88S6t29hNDo96lSiNb0mNu/b5JCBloXU65MSo1lQ6V/bYPJ5jVmdqnu4xPXGkJLdKM0Vft0t4lvy7seg3WVlNE6YCWOX3Z4Ltpo5wjxfsQBfgKI++6JuTBRveFm2Uf/9UpZBBbwq2xuXGqA8gIRhOWdSG/uYD40Bvuo4chenRbqdAGSdeTw/Fdc2KsOIqylGQR+yaRYj76gxCZCSgGHrfIHdoFCDLVp1c7oG7zKYD84X4Fyh6YOc8HyOPCMhSHwYOdlj8/e0gmc/9MGezkA2Z9LiJBqVItBMoH14YT8WxuQW6/I44mVLKj3W7OeGoaOAKnazFT5lH48VjOG/1ad39Vun4+2Jbvj6vXYDHXERTWlDXyqCsJiIdjRVT6OjXWm5T1Zmcud5UsTe8AstLf9iB0SkIzsFB/czkEp9SZEyIcu3zngsy4RMUzQARoOrmEc0Mpi5QpQf8blsNBZ80FXzwByKhaEqC70dGvPZxH87wF4hJtVp630xBNBa+d5BQhrLr0BCL95UgGgkCWoNkg7QH+9vNop+2Q7t4uaJzG1ZTtyPIExavWl4qoOdt0MqecVvts6foKltKd7zSYagqVbrKz0XUjDzOiWaZIwX/p4eFQkHU2Nd/I67p/JdroUe3lyMWojsiny2qswevxbRXDPCFGsGF4CJQd2EX8anwZZCkk= # DOCKER_PASSWORD
+    - secure: JbyAyc63INGwb1N+0lel1t2Z1EfDJGvClxl2KQ//Tnjeh1zhFNVhxGgCgZRPCr6PKz+CCppiJM7zP0AGvCXF0UqJ08VuHBhYx5WeFTfYz8dvvoSH91Gu4a0vjgOMVM3REUmiuNmrXD3WTtYfRxAwl3j7z5OW3HAXIvhb4edJW868TctXQ1RNS7oWCW267X2dMrxg5vJyunYc12vOhmxgoxTmiBDACF3/fdFDM6rnMFM1Z8kkWRnkc8Hd3wBQ9QQQyaxx8bsO3IrzO0l7Tel2C/s34Ud7HEw1soh/6/Vqc9H1Z3L6vol6ViG0uYYERCOxZt34z4FIK1Id9+EK7YW9tQAYTnE3MWVUiczoeYCPbxOMYznv0pZaWVB4xv8WePkpXfBPmwJ41uKZ3TCfMxnsgFghjxn/lcUFn2kx62WjQ1r+H9+lwDs/+6iA7sCGLUmpmf8/GBbzMA2qesuqOGQbES4VgEIWynVBTWeQzZzPGplDajVxHmQYQGfJOXusQOkxOVqlrn6hp2UpTpTfX7ZrTmOLiYEufI5c4iQIZmj1eOQgBl7JtsLevBfJPbRnk3vk1LriJOMRy414DDfEQiW+2w68Lz9h73hhFWHnyEb67vDZtqgAg7qFxgmLdy+nE/qs0NkTNrHAMAuRQ0aleB1t2iFJ1mpChcAVh968bALpQhQ= # QUAY_PASSWORD
+
+before_install:
+  - sudo apt-get update
+  - docker --version
+
+script: ./build.sh
+
+notifications:
+  email:
+    recipients:
+      - travisci@crazymax.dev
+    on_success: always
+    on_failure: always
