@@ -10,6 +10,8 @@
 🐳 Simple loop for dummy services.<br />
 If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
 
+💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
+
 ## Environment variables
 
 * `TZ` : The timezone assigned to the container (default `UTC`)
