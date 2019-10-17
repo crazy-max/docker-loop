@@ -1,16 +1,21 @@
-FROM rust:latest as builder
+# syntax=docker/dockerfile:experimental
+FROM --platform=${TARGETPLATFORM:-linux/amd64} rust:latest as builder
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
 
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN printf "I am running on ${BUILDPLATFORM:-linux/amd64}, building for ${TARGETPLATFORM:-linux/amd64}\n$(uname -a)\n"
+
 WORKDIR /usr/src
 RUN git clone https://github.com/Miserlou/Loop.git loop \
   && cd loop \
-  && rustup target install x86_64-unknown-linux-musl \
-  && cargo build --release --target=x86_64-unknown-linux-musl
+  && rm Cargo.lock \
+  && cargo build --release
 
-FROM alpine:latest
+FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:latest
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -31,7 +36,7 @@ RUN apk --update --no-cache add \
     tzdata \
   && rm -rf /var/cache/apk/* /tmp/*
 
-COPY --from=builder /usr/src/loop/target/x86_64-unknown-linux-musl/release/loop /usr/local/bin/loop
+COPY --from=builder /usr/src/loop/target/release/loop /usr/local/bin/loop
 COPY entrypoint.sh /entrypoint.sh
 COPY assets /
 
