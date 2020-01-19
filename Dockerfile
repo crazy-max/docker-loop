@@ -7,8 +7,6 @@ ARG VERSION
 WORKDIR /usr/src
 RUN git clone https://github.com/Miserlou/Loop.git loop \
   && cd loop \
-  # tmp fix https://github.com/Miserlou/Loop/pull/59
-  && rm -f Cargo.lock \
   && rustup target install x86_64-unknown-linux-musl \
   && cargo build --release --target=x86_64-unknown-linux-musl
 
