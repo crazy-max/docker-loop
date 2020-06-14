@@ -1,16 +1,19 @@
 name: build
 
 on:
-  pull_request:
-    branches: 'master'
-    paths:
-      - '.github/workflows/build.yml'
-      - 'Dockerfile'
   push:
-    branches: 'master'
-    paths:
-      - '.github/workflows/build.yml'
-      - 'Dockerfile'
+    branches:
+      - '**'
+      - '!dependabot/**'
+    tags:
+      - '*'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
 
 jobs:
   build:

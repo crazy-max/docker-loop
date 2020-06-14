@@ -10,14 +10,14 @@
 ## About
 
 🐳 Simple loop for dummy services.<br />
-If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 🐳 Docker images!
+If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other Docker images!
 
 💡 Want to be notified of new releases? Check out 🔔 [Diun (Docker Image Update Notifier)](https://github.com/crazy-max/diun) project!
 
 ## Environment variables
 
-* `TZ` : The timezone assigned to the container (default `UTC`)
-* `DURATION` : Keep going until the duration has elapsed (default `60s`)
+* `TZ`: The timezone assigned to the container (default `UTC`)
+* `DURATION`: Keep going until the duration has elapsed (default `60s`)
 
 ## Use this image
 
@@ -36,7 +36,7 @@ Mon Apr 29 00:09:07 UTC 2019 - bed1d93e0940
 ...
 ```
 
-## How can I help ?
+## How can I help?
 
 All kinds of contributions are welcome :raised_hands:! The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon: You can also support this project by [**becoming a sponsor on GitHub**](https://github.com/sponsors/crazy-max) :clap: or by making a [Paypal donation](https://www.paypal.me/crazyws) to ensure this journey continues indefinitely! :rocket:
 
