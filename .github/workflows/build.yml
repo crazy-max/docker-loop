@@ -14,6 +14,10 @@ on:
     paths-ignore:
       - '**.md'
 
+env:
+  DOCKERHUB_SLUG: crazymax/loop
+  GHCR_SLUG: ghcr.io/crazy-max/loop
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,16 +26,13 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2.3.3
       -
-        name: Prepare
-        id: prep
-        run: |
-          DOCKER_IMAGE=crazymax/loop
-          VERSION=latest
-          echo ::set-output name=docker_image::${DOCKER_IMAGE}
-          echo ::set-output name=version::${VERSION}
-          echo ::set-output name=tags::${DOCKER_IMAGE}:latest
-          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          echo ::set-output name=vcs_ref::${GITHUB_SHA::8}
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: |
+            ${{ env.DOCKERHUB_SLUG }}
+            ${{ env.GHCR_SLUG }}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -48,24 +49,39 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       -
+        name: Login to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+      -
         name: Build
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/')) }}
-          tags: ${{ steps.prep.outputs.tags }}
-          build-args: |
-            VERSION=${{ steps.prep.outputs.version }}
-            BUILD_DATE=${{ steps.prep.outputs.build_date }}
-            VCS_REF=${{ steps.prep.outputs.vcs_ref }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.DOCKERHUB_SLUG }}:latest
+            ${{ env.GHCR_SLUG }}:latest
+          labels: |
+            ${{ steps.docker_meta.outputs.labels }}
+            org.opencontainers.image.title=loop
+            org.opencontainers.image.description=Simple loop for dummy services
+            org.opencontainers.image.vendor=CrazyMax
       -
         name: Check manifest
-        if: github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/'))
+        if: github.event_name != 'pull_request'
         run: |
-          docker buildx imagetools inspect ${{ steps.prep.outputs.docker_image }}:${{ steps.prep.outputs.version }}
+          docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:latest
+          docker buildx imagetools inspect ${{ env.GHCR_SLUG }}:latest
       -
-        name: Check pull
-        if: github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/'))
+        name: Inspect image
+        if: github.event_name != 'pull_request'
         run: |
-          docker pull ${{ steps.prep.outputs.docker_image }}:${{ steps.prep.outputs.version }}
+          docker pull ${{ env.DOCKERHUB_SLUG }}:latest
+          docker image inspect ${{ env.DOCKERHUB_SLUG }}:latest
+          docker pull ${{ env.GHCR_SLUG }}:latest
+          docker image inspect ${{ env.GHCR_SLUG }}:latest
