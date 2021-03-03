@@ -15,23 +15,20 @@ If you are interested, [check out](https://hub.docker.com/r/crazymax/) my other 
 
 ___
 
-* [Docker](#docker)
-  * [Image](#image)
-  * [Environment variables](#environment-variables)
+* [Image](#image)
+* [Environment variables](#environment-variables)
 * [Usage](#usage)
 * [How can I help?](#how-can-i-help)
 * [License](#license)
 
-## Docker
-
-### Image
+## Image
 
 | Registry                                                                                         | Image                           |
 |--------------------------------------------------------------------------------------------------|---------------------------------|
 | [Docker Hub](https://hub.docker.com/r/crazymax/loop/)                                            | `crazymax/loop`                 |
 | [GitHub Container Registry](https://github.com/users/crazy-max/packages/container/package/loop)  | `ghcr.io/crazy-max/loop`        |
 
-### Environment variables
+## Environment variables
 
 * `TZ`: The timezone assigned to the container (default `UTC`)
 * `DURATION`: Keep going until the duration has elapsed (default `60s`)
