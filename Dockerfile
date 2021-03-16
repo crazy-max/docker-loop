@@ -1,4 +1,4 @@
-FROM rust:latest as builder
+FROM rust:latest AS builder
 
 WORKDIR /usr/src
 RUN git clone https://github.com/Miserlou/Loop.git loop \
@@ -7,7 +7,6 @@ RUN git clone https://github.com/Miserlou/Loop.git loop \
   && cargo build --release --target=x86_64-unknown-linux-musl
 
 FROM alpine:latest
-
 LABEL maintainer="CrazyMax"
 
 COPY --from=builder /usr/src/loop/target/x86_64-unknown-linux-musl/release/loop /usr/local/bin/loop
