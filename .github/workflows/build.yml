@@ -27,12 +27,18 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
         with:
           images: |
             ${{ env.DOCKERHUB_SLUG }}
             ${{ env.GHCR_SLUG }}
+          tags: |
+            latest
+          labels: |
+            org.opencontainers.image.title=loop
+            org.opencontainers.image.description=Simple loop for dummy services
+            org.opencontainers.image.vendor=CrazyMax
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -56,19 +62,13 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
       -
         name: Build
-        uses: docker/build-push-action@v2
+        uses: docker/bake-action@v1
         with:
-          context: .
-          file: ./Dockerfile
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          targets: image
           push: ${{ github.event_name != 'pull_request' }}
-          tags: |
-            ${{ env.DOCKERHUB_SLUG }}:latest
-            ${{ env.GHCR_SLUG }}:latest
-          labels: |
-            ${{ steps.docker_meta.outputs.labels }}
-            org.opencontainers.image.title=loop
-            org.opencontainers.image.description=Simple loop for dummy services
-            org.opencontainers.image.vendor=CrazyMax
       -
         name: Check manifest
         if: github.event_name != 'pull_request'
