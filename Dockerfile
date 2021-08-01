@@ -1,16 +1,12 @@
 FROM rust:latest AS builder
-
 WORKDIR /usr/src
 RUN git clone https://github.com/Miserlou/Loop.git loop \
   && cd loop \
   && rustup target install x86_64-unknown-linux-musl \
   && cargo build --release --target=x86_64-unknown-linux-musl
 
-FROM alpine:latest
-LABEL maintainer="CrazyMax"
-
+FROM alpine:3.14
 COPY --from=builder /usr/src/loop/target/x86_64-unknown-linux-musl/release/loop /usr/local/bin/loop
-
 RUN loop --version \
   && apk --update --no-cache add \
     tzdata \
