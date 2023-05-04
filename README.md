@@ -30,6 +30,20 @@ ___
 | [Docker Hub](https://hub.docker.com/r/crazymax/loop/)                                            | `crazymax/loop`                 |
 | [GitHub Container Registry](https://github.com/users/crazy-max/packages/container/package/loop)  | `ghcr.io/crazy-max/loop`        |
 
+Following platforms for this image are available:
+
+```
+$ docker run --rm mplatform/mquery crazymax/loop:latest
+Image: crazymax/matomo:latest
+ * Manifest List: Yes
+ * Supported platforms:
+   - linux/amd64
+   - linux/arm/v6
+   - linux/arm/v7
+   - linux/arm64
+   - linux/386
+```
+
 ## Environment variables
 
 * `TZ`: The timezone assigned to the container (default `UTC`)
