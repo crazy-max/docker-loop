@@ -34,7 +34,7 @@ Following platforms for this image are available:
 
 ```
 $ docker run --rm mplatform/mquery crazymax/loop:latest
-Image: crazymax/matomo:latest
+Image: crazymax/loop:latest
  * Manifest List: Yes
  * Supported platforms:
    - linux/amd64
