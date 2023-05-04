@@ -12,11 +12,19 @@ group "default" {
   targets = ["image-local"]
 }
 
-target "image" {
+target "image-local" {
   inherits = ["docker-metadata-action"]
+  output = ["type=docker"]
 }
 
-target "image-local" {
-  inherits = ["image"]
-  output = ["type=docker"]
+target "image" {
+  inherits = ["docker-metadata-action"]
+  platforms = [
+    "linux/386",
+    "linux/amd64",
+    "linux/arm/v6",
+    "linux/arm/v7",
+    "linux/arm64"
+  ]
+  output = ["type=image"]
 }
